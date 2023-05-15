@@ -6,7 +6,7 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <title><%: Page.Title %> - Discim.com</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -37,22 +37,34 @@
             </Scripts>
         </asp:ScriptManager>
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">Application name</a>
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/About">About</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contact</a></li>
-                    </ul>
+        <header class="p-1 text-bg-dark">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark">
+                <div class="container-md">
+                    <img src="Images/LogoDentist.png" alt="Logo" width="80" height="80" class="d-inline-block align-text-top" />
+                    <a class="navbar-brand" href="#">Discim.com</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Discim.com</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body navbar-collapse d-flex flex-row-reverse">
+                            <a href="/Pages/LogIn.aspx" class="btn btn-primary" role="button">Giriş Yap</a>
+                            <a href="/Pages/SignIn.aspx" class="btn btn-outline-danger me-3" role="button">Kayıt Ol</a>
+                            <ul class="navbar-nav">
+                                <li class="nav-item"><a class="nav-link" runat="server" href="Default.aspx">Ana Sayfa</a></li>
+                                <li class="nav-item"><a class="nav-link" runat="server" href="#">Tedaviler</a></li>
+                                <li class="nav-item"><a class="nav-link" runat="server" href="#">Doktorlar</a></li>
+                                <li class="nav-item"><a class="nav-link" runat="server" href="~/Pages/About.aspx">Hakkımızda</a></li>
+                                <li class="nav-item"><a class="nav-link me-2" runat="server" href="~/Pages/Contact.aspx">İletişim</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </header>
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
