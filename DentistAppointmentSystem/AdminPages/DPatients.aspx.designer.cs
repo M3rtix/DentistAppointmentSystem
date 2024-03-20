@@ -7,20 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DentistAppointmentSystem
+namespace DentistAppointmentSystem.AdminPages
 {
 
 
-    public partial class SiteMaster
+    public partial class DPatients
     {
 
         /// <summary>
-        /// MainContent control.
+        /// Repeater1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.Repeater Repeater1;
     }
 }

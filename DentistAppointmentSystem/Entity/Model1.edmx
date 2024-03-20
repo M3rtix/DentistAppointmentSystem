@@ -1,0 +1,767 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DentistAppointmentSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TBL_ADMINS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_APPOINTMENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateAndTime" Type="datetime" Nullable="false" />
+          <Property Name="DoctorID" Type="smallint" Nullable="false" />
+          <Property Name="PatientID" Type="smallint" Nullable="false" />
+          <Property Name="DepartmentID" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_DEPARTMENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Department" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="TBL_DOCTORS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="smallint" Nullable="false" />
+          <Property Name="TitleID" Type="tinyint" />
+          <Property Name="About" Type="nvarchar(max)" />
+          <Property Name="DepartmentID" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="TBL_PATIENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDNumber" Type="varchar" MaxLength="11" />
+          <Property Name="Gender" Type="bit" />
+          <Property Name="Birthday" Type="date" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="DepartmentID" Type="tinyint" />
+          <Property Name="UserID" Type="smallint" />
+        </EntityType>
+        <EntityType Name="TBL_REVIEWS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientID" Type="smallint" />
+          <Property Name="DoctorID" Type="smallint" />
+          <Property Name="Caption" Type="nvarchar" MaxLength="50" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="500" />
+          <Property Name="Created_at" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Star" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="TBL_STATUS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBL_TITLES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DentistAppointmentSystem.dbo.TBL_TREATMENTS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TBL_TREATMENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Treatment" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="TBL_USERS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="RememberMe" Type="bit" />
+          <Property Name="StatusID" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_TBL_ADMINS_TBL_USERS">
+          <End Role="TBL_USERS" Type="Self.TBL_USERS" Multiplicity="1" />
+          <End Role="TBL_ADMINS" Type="Self.TBL_ADMINS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_USERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_ADMINS">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_APPOINTMENTS_TBL_DEPARTMENTS">
+          <End Role="TBL_DEPARTMENTS" Type="Self.TBL_DEPARTMENTS" Multiplicity="1" />
+          <End Role="TBL_APPOINTMENTS" Type="Self.TBL_APPOINTMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DEPARTMENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_APPOINTMENTS">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_APPOINTMENTS_TBL_DOCTORS">
+          <End Role="TBL_DOCTORS" Type="Self.TBL_DOCTORS" Multiplicity="1" />
+          <End Role="TBL_APPOINTMENTS" Type="Self.TBL_APPOINTMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DOCTORS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_APPOINTMENTS">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_APPOINTMENTS_TBL_PATIENTS">
+          <End Role="TBL_PATIENTS" Type="Self.TBL_PATIENTS" Multiplicity="1" />
+          <End Role="TBL_APPOINTMENTS" Type="Self.TBL_APPOINTMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_PATIENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_APPOINTMENTS">
+              <PropertyRef Name="PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DOCTORS_TBL_DEPARTMENTS">
+          <End Role="TBL_DEPARTMENTS" Type="Self.TBL_DEPARTMENTS" Multiplicity="0..1" />
+          <End Role="TBL_DOCTORS" Type="Self.TBL_DOCTORS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DEPARTMENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_DOCTORS">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DOCTORS_TBL_TITLES">
+          <End Role="TBL_TITLES" Type="Self.TBL_TITLES" Multiplicity="0..1" />
+          <End Role="TBL_DOCTORS" Type="Self.TBL_DOCTORS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_TITLES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_DOCTORS">
+              <PropertyRef Name="TitleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DOCTORS_TBL_USERS">
+          <End Role="TBL_USERS" Type="Self.TBL_USERS" Multiplicity="1" />
+          <End Role="TBL_DOCTORS" Type="Self.TBL_DOCTORS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_USERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_DOCTORS">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_PATIENTS_TBL_DEPARTMENTS">
+          <End Role="TBL_DEPARTMENTS" Type="Self.TBL_DEPARTMENTS" Multiplicity="0..1" />
+          <End Role="TBL_PATIENTS" Type="Self.TBL_PATIENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DEPARTMENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_PATIENTS">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_PATIENTS_TBL_USERS">
+          <End Role="TBL_USERS" Type="Self.TBL_USERS" Multiplicity="0..1" />
+          <End Role="TBL_PATIENTS" Type="Self.TBL_PATIENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_USERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_PATIENTS">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_REVIEWS_TBL_DOCTORS">
+          <End Role="TBL_DOCTORS" Type="Self.TBL_DOCTORS" Multiplicity="0..1" />
+          <End Role="TBL_REVIEWS" Type="Self.TBL_REVIEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DOCTORS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_REVIEWS">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_REVIEWS_TBL_PATIENTS">
+          <End Role="TBL_PATIENTS" Type="Self.TBL_PATIENTS" Multiplicity="0..1" />
+          <End Role="TBL_REVIEWS" Type="Self.TBL_REVIEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_PATIENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_REVIEWS">
+              <PropertyRef Name="PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_USERS_TBL_STATUS">
+          <End Role="TBL_STATUS" Type="Self.TBL_STATUS" Multiplicity="1" />
+          <End Role="TBL_USERS" Type="Self.TBL_USERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_STATUS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_USERS">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DentistAppointmentSystemModelStoreContainer">
+          <EntitySet Name="TBL_ADMINS" EntityType="Self.TBL_ADMINS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_APPOINTMENTS" EntityType="Self.TBL_APPOINTMENTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DEPARTMENTS" EntityType="Self.TBL_DEPARTMENTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DOCTORS" EntityType="Self.TBL_DOCTORS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_PATIENTS" EntityType="Self.TBL_PATIENTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_REVIEWS" EntityType="Self.TBL_REVIEWS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_STATUS" EntityType="Self.TBL_STATUS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_TITLES" EntityType="Self.TBL_TITLES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_USERS" EntityType="Self.TBL_USERS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_TREATMENTS" EntityType="Self.TBL_TREATMENTS" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TBL_TREATMENTS].[ID] AS [ID], 
+    [TBL_TREATMENTS].[Treatment] AS [Treatment]
+    FROM [dbo].[TBL_TREATMENTS] AS [TBL_TREATMENTS]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_TBL_ADMINS_TBL_USERS" Association="Self.FK_TBL_ADMINS_TBL_USERS">
+            <End Role="TBL_USERS" EntitySet="TBL_USERS" />
+            <End Role="TBL_ADMINS" EntitySet="TBL_ADMINS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_APPOINTMENTS_TBL_DEPARTMENTS" Association="Self.FK_TBL_APPOINTMENTS_TBL_DEPARTMENTS">
+            <End Role="TBL_DEPARTMENTS" EntitySet="TBL_DEPARTMENTS" />
+            <End Role="TBL_APPOINTMENTS" EntitySet="TBL_APPOINTMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_APPOINTMENTS_TBL_DOCTORS" Association="Self.FK_TBL_APPOINTMENTS_TBL_DOCTORS">
+            <End Role="TBL_DOCTORS" EntitySet="TBL_DOCTORS" />
+            <End Role="TBL_APPOINTMENTS" EntitySet="TBL_APPOINTMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_APPOINTMENTS_TBL_PATIENTS" Association="Self.FK_TBL_APPOINTMENTS_TBL_PATIENTS">
+            <End Role="TBL_PATIENTS" EntitySet="TBL_PATIENTS" />
+            <End Role="TBL_APPOINTMENTS" EntitySet="TBL_APPOINTMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DOCTORS_TBL_DEPARTMENTS" Association="Self.FK_TBL_DOCTORS_TBL_DEPARTMENTS">
+            <End Role="TBL_DEPARTMENTS" EntitySet="TBL_DEPARTMENTS" />
+            <End Role="TBL_DOCTORS" EntitySet="TBL_DOCTORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DOCTORS_TBL_TITLES" Association="Self.FK_TBL_DOCTORS_TBL_TITLES">
+            <End Role="TBL_TITLES" EntitySet="TBL_TITLES" />
+            <End Role="TBL_DOCTORS" EntitySet="TBL_DOCTORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DOCTORS_TBL_USERS" Association="Self.FK_TBL_DOCTORS_TBL_USERS">
+            <End Role="TBL_USERS" EntitySet="TBL_USERS" />
+            <End Role="TBL_DOCTORS" EntitySet="TBL_DOCTORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_PATIENTS_TBL_DEPARTMENTS" Association="Self.FK_TBL_PATIENTS_TBL_DEPARTMENTS">
+            <End Role="TBL_DEPARTMENTS" EntitySet="TBL_DEPARTMENTS" />
+            <End Role="TBL_PATIENTS" EntitySet="TBL_PATIENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_PATIENTS_TBL_USERS" Association="Self.FK_TBL_PATIENTS_TBL_USERS">
+            <End Role="TBL_USERS" EntitySet="TBL_USERS" />
+            <End Role="TBL_PATIENTS" EntitySet="TBL_PATIENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_REVIEWS_TBL_DOCTORS" Association="Self.FK_TBL_REVIEWS_TBL_DOCTORS">
+            <End Role="TBL_DOCTORS" EntitySet="TBL_DOCTORS" />
+            <End Role="TBL_REVIEWS" EntitySet="TBL_REVIEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_REVIEWS_TBL_PATIENTS" Association="Self.FK_TBL_REVIEWS_TBL_PATIENTS">
+            <End Role="TBL_PATIENTS" EntitySet="TBL_PATIENTS" />
+            <End Role="TBL_REVIEWS" EntitySet="TBL_REVIEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_USERS_TBL_STATUS" Association="Self.FK_TBL_USERS_TBL_STATUS">
+            <End Role="TBL_STATUS" EntitySet="TBL_STATUS" />
+            <End Role="TBL_USERS" EntitySet="TBL_USERS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DentistAppointmentSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TBL_ADMINS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="TBL_USERS" Relationship="Self.FK_TBL_ADMINS_TBL_USERS" FromRole="TBL_ADMINS" ToRole="TBL_USERS" />
+        </EntityType>
+        <EntityType Name="TBL_APPOINTMENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateAndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DoctorID" Type="Int16" Nullable="false" />
+          <Property Name="PatientID" Type="Int16" Nullable="false" />
+          <Property Name="DepartmentID" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="TBL_DEPARTMENTS" Relationship="Self.FK_TBL_APPOINTMENTS_TBL_DEPARTMENTS" FromRole="TBL_APPOINTMENTS" ToRole="TBL_DEPARTMENTS" />
+          <NavigationProperty Name="TBL_DOCTORS" Relationship="Self.FK_TBL_APPOINTMENTS_TBL_DOCTORS" FromRole="TBL_APPOINTMENTS" ToRole="TBL_DOCTORS" />
+          <NavigationProperty Name="TBL_PATIENTS" Relationship="Self.FK_TBL_APPOINTMENTS_TBL_PATIENTS" FromRole="TBL_APPOINTMENTS" ToRole="TBL_PATIENTS" />
+        </EntityType>
+        <EntityType Name="TBL_DEPARTMENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Department" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBL_APPOINTMENTS" Relationship="Self.FK_TBL_APPOINTMENTS_TBL_DEPARTMENTS" FromRole="TBL_DEPARTMENTS" ToRole="TBL_APPOINTMENTS" />
+          <NavigationProperty Name="TBL_DOCTORS" Relationship="Self.FK_TBL_DOCTORS_TBL_DEPARTMENTS" FromRole="TBL_DEPARTMENTS" ToRole="TBL_DOCTORS" />
+          <NavigationProperty Name="TBL_PATIENTS" Relationship="Self.FK_TBL_PATIENTS_TBL_DEPARTMENTS" FromRole="TBL_DEPARTMENTS" ToRole="TBL_PATIENTS" />
+        </EntityType>
+        <EntityType Name="TBL_DOCTORS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int16" Nullable="false" />
+          <Property Name="TitleID" Type="Byte" />
+          <Property Name="About" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentID" Type="Byte" />
+          <NavigationProperty Name="TBL_APPOINTMENTS" Relationship="Self.FK_TBL_APPOINTMENTS_TBL_DOCTORS" FromRole="TBL_DOCTORS" ToRole="TBL_APPOINTMENTS" />
+          <NavigationProperty Name="TBL_DEPARTMENTS" Relationship="Self.FK_TBL_DOCTORS_TBL_DEPARTMENTS" FromRole="TBL_DOCTORS" ToRole="TBL_DEPARTMENTS" />
+          <NavigationProperty Name="TBL_TITLES" Relationship="Self.FK_TBL_DOCTORS_TBL_TITLES" FromRole="TBL_DOCTORS" ToRole="TBL_TITLES" />
+          <NavigationProperty Name="TBL_USERS" Relationship="Self.FK_TBL_DOCTORS_TBL_USERS" FromRole="TBL_DOCTORS" ToRole="TBL_USERS" />
+          <NavigationProperty Name="TBL_REVIEWS" Relationship="Self.FK_TBL_REVIEWS_TBL_DOCTORS" FromRole="TBL_DOCTORS" ToRole="TBL_REVIEWS" />
+        </EntityType>
+        <EntityType Name="TBL_PATIENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDNumber" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="Boolean" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentID" Type="Byte" />
+          <Property Name="UserID" Type="Int16" />
+          <NavigationProperty Name="TBL_APPOINTMENTS" Relationship="Self.FK_TBL_APPOINTMENTS_TBL_PATIENTS" FromRole="TBL_PATIENTS" ToRole="TBL_APPOINTMENTS" />
+          <NavigationProperty Name="TBL_DEPARTMENTS" Relationship="Self.FK_TBL_PATIENTS_TBL_DEPARTMENTS" FromRole="TBL_PATIENTS" ToRole="TBL_DEPARTMENTS" />
+          <NavigationProperty Name="TBL_USERS" Relationship="Self.FK_TBL_PATIENTS_TBL_USERS" FromRole="TBL_PATIENTS" ToRole="TBL_USERS" />
+          <NavigationProperty Name="TBL_REVIEWS" Relationship="Self.FK_TBL_REVIEWS_TBL_PATIENTS" FromRole="TBL_PATIENTS" ToRole="TBL_REVIEWS" />
+        </EntityType>
+        <EntityType Name="TBL_REVIEWS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientID" Type="Int16" />
+          <Property Name="DoctorID" Type="Int16" />
+          <Property Name="Caption" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Created_at" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Star" Type="Byte" />
+          <NavigationProperty Name="TBL_DOCTORS" Relationship="Self.FK_TBL_REVIEWS_TBL_DOCTORS" FromRole="TBL_REVIEWS" ToRole="TBL_DOCTORS" />
+          <NavigationProperty Name="TBL_PATIENTS" Relationship="Self.FK_TBL_REVIEWS_TBL_PATIENTS" FromRole="TBL_REVIEWS" ToRole="TBL_PATIENTS" />
+        </EntityType>
+        <EntityType Name="TBL_STATUS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBL_USERS" Relationship="Self.FK_TBL_USERS_TBL_STATUS" FromRole="TBL_STATUS" ToRole="TBL_USERS" />
+        </EntityType>
+        <EntityType Name="TBL_TITLES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBL_DOCTORS" Relationship="Self.FK_TBL_DOCTORS_TBL_TITLES" FromRole="TBL_TITLES" ToRole="TBL_DOCTORS" />
+        </EntityType>
+        <EntityType Name="TBL_USERS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RememberMe" Type="Boolean" />
+          <Property Name="StatusID" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="TBL_ADMINS" Relationship="Self.FK_TBL_ADMINS_TBL_USERS" FromRole="TBL_USERS" ToRole="TBL_ADMINS" />
+          <NavigationProperty Name="TBL_DOCTORS" Relationship="Self.FK_TBL_DOCTORS_TBL_USERS" FromRole="TBL_USERS" ToRole="TBL_DOCTORS" />
+          <NavigationProperty Name="TBL_PATIENTS" Relationship="Self.FK_TBL_PATIENTS_TBL_USERS" FromRole="TBL_USERS" ToRole="TBL_PATIENTS" />
+          <NavigationProperty Name="TBL_STATUS" Relationship="Self.FK_TBL_USERS_TBL_STATUS" FromRole="TBL_USERS" ToRole="TBL_STATUS" />
+        </EntityType>
+        <EntityType Name="TBL_TREATMENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Treatment" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_TBL_ADMINS_TBL_USERS">
+          <End Role="TBL_USERS" Type="Self.TBL_USERS" Multiplicity="1" />
+          <End Role="TBL_ADMINS" Type="Self.TBL_ADMINS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_USERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_ADMINS">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_APPOINTMENTS_TBL_DEPARTMENTS">
+          <End Role="TBL_DEPARTMENTS" Type="Self.TBL_DEPARTMENTS" Multiplicity="1" />
+          <End Role="TBL_APPOINTMENTS" Type="Self.TBL_APPOINTMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DEPARTMENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_APPOINTMENTS">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_APPOINTMENTS_TBL_DOCTORS">
+          <End Role="TBL_DOCTORS" Type="Self.TBL_DOCTORS" Multiplicity="1" />
+          <End Role="TBL_APPOINTMENTS" Type="Self.TBL_APPOINTMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DOCTORS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_APPOINTMENTS">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_APPOINTMENTS_TBL_PATIENTS">
+          <End Role="TBL_PATIENTS" Type="Self.TBL_PATIENTS" Multiplicity="1" />
+          <End Role="TBL_APPOINTMENTS" Type="Self.TBL_APPOINTMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_PATIENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_APPOINTMENTS">
+              <PropertyRef Name="PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DOCTORS_TBL_DEPARTMENTS">
+          <End Role="TBL_DEPARTMENTS" Type="Self.TBL_DEPARTMENTS" Multiplicity="0..1" />
+          <End Role="TBL_DOCTORS" Type="Self.TBL_DOCTORS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DEPARTMENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_DOCTORS">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_PATIENTS_TBL_DEPARTMENTS">
+          <End Role="TBL_DEPARTMENTS" Type="Self.TBL_DEPARTMENTS" Multiplicity="0..1" />
+          <End Role="TBL_PATIENTS" Type="Self.TBL_PATIENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DEPARTMENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_PATIENTS">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DOCTORS_TBL_TITLES">
+          <End Role="TBL_TITLES" Type="Self.TBL_TITLES" Multiplicity="0..1" />
+          <End Role="TBL_DOCTORS" Type="Self.TBL_DOCTORS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_TITLES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_DOCTORS">
+              <PropertyRef Name="TitleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DOCTORS_TBL_USERS">
+          <End Role="TBL_USERS" Type="Self.TBL_USERS" Multiplicity="1" />
+          <End Role="TBL_DOCTORS" Type="Self.TBL_DOCTORS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_USERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_DOCTORS">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_REVIEWS_TBL_DOCTORS">
+          <End Role="TBL_DOCTORS" Type="Self.TBL_DOCTORS" Multiplicity="0..1" />
+          <End Role="TBL_REVIEWS" Type="Self.TBL_REVIEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DOCTORS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_REVIEWS">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_PATIENTS_TBL_USERS">
+          <End Role="TBL_USERS" Type="Self.TBL_USERS" Multiplicity="0..1" />
+          <End Role="TBL_PATIENTS" Type="Self.TBL_PATIENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_USERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_PATIENTS">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_REVIEWS_TBL_PATIENTS">
+          <End Role="TBL_PATIENTS" Type="Self.TBL_PATIENTS" Multiplicity="0..1" />
+          <End Role="TBL_REVIEWS" Type="Self.TBL_REVIEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_PATIENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_REVIEWS">
+              <PropertyRef Name="PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_USERS_TBL_STATUS">
+          <End Role="TBL_STATUS" Type="Self.TBL_STATUS" Multiplicity="1" />
+          <End Role="TBL_USERS" Type="Self.TBL_USERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_STATUS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_USERS">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DentistAppointmentSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TBL_ADMINS" EntityType="Self.TBL_ADMINS" />
+          <EntitySet Name="TBL_APPOINTMENTS" EntityType="Self.TBL_APPOINTMENTS" />
+          <EntitySet Name="TBL_DEPARTMENTS" EntityType="Self.TBL_DEPARTMENTS" />
+          <EntitySet Name="TBL_DOCTORS" EntityType="Self.TBL_DOCTORS" />
+          <EntitySet Name="TBL_PATIENTS" EntityType="Self.TBL_PATIENTS" />
+          <EntitySet Name="TBL_REVIEWS" EntityType="Self.TBL_REVIEWS" />
+          <EntitySet Name="TBL_STATUS" EntityType="Self.TBL_STATUS" />
+          <EntitySet Name="TBL_TITLES" EntityType="Self.TBL_TITLES" />
+          <EntitySet Name="TBL_USERS" EntityType="Self.TBL_USERS" />
+          <EntitySet Name="TBL_TREATMENTS" EntityType="Self.TBL_TREATMENTS" />
+          <AssociationSet Name="FK_TBL_ADMINS_TBL_USERS" Association="Self.FK_TBL_ADMINS_TBL_USERS">
+            <End Role="TBL_USERS" EntitySet="TBL_USERS" />
+            <End Role="TBL_ADMINS" EntitySet="TBL_ADMINS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_APPOINTMENTS_TBL_DEPARTMENTS" Association="Self.FK_TBL_APPOINTMENTS_TBL_DEPARTMENTS">
+            <End Role="TBL_DEPARTMENTS" EntitySet="TBL_DEPARTMENTS" />
+            <End Role="TBL_APPOINTMENTS" EntitySet="TBL_APPOINTMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_APPOINTMENTS_TBL_DOCTORS" Association="Self.FK_TBL_APPOINTMENTS_TBL_DOCTORS">
+            <End Role="TBL_DOCTORS" EntitySet="TBL_DOCTORS" />
+            <End Role="TBL_APPOINTMENTS" EntitySet="TBL_APPOINTMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_APPOINTMENTS_TBL_PATIENTS" Association="Self.FK_TBL_APPOINTMENTS_TBL_PATIENTS">
+            <End Role="TBL_PATIENTS" EntitySet="TBL_PATIENTS" />
+            <End Role="TBL_APPOINTMENTS" EntitySet="TBL_APPOINTMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DOCTORS_TBL_DEPARTMENTS" Association="Self.FK_TBL_DOCTORS_TBL_DEPARTMENTS">
+            <End Role="TBL_DEPARTMENTS" EntitySet="TBL_DEPARTMENTS" />
+            <End Role="TBL_DOCTORS" EntitySet="TBL_DOCTORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_PATIENTS_TBL_DEPARTMENTS" Association="Self.FK_TBL_PATIENTS_TBL_DEPARTMENTS">
+            <End Role="TBL_DEPARTMENTS" EntitySet="TBL_DEPARTMENTS" />
+            <End Role="TBL_PATIENTS" EntitySet="TBL_PATIENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DOCTORS_TBL_TITLES" Association="Self.FK_TBL_DOCTORS_TBL_TITLES">
+            <End Role="TBL_TITLES" EntitySet="TBL_TITLES" />
+            <End Role="TBL_DOCTORS" EntitySet="TBL_DOCTORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DOCTORS_TBL_USERS" Association="Self.FK_TBL_DOCTORS_TBL_USERS">
+            <End Role="TBL_USERS" EntitySet="TBL_USERS" />
+            <End Role="TBL_DOCTORS" EntitySet="TBL_DOCTORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_REVIEWS_TBL_DOCTORS" Association="Self.FK_TBL_REVIEWS_TBL_DOCTORS">
+            <End Role="TBL_DOCTORS" EntitySet="TBL_DOCTORS" />
+            <End Role="TBL_REVIEWS" EntitySet="TBL_REVIEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_PATIENTS_TBL_USERS" Association="Self.FK_TBL_PATIENTS_TBL_USERS">
+            <End Role="TBL_USERS" EntitySet="TBL_USERS" />
+            <End Role="TBL_PATIENTS" EntitySet="TBL_PATIENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_REVIEWS_TBL_PATIENTS" Association="Self.FK_TBL_REVIEWS_TBL_PATIENTS">
+            <End Role="TBL_PATIENTS" EntitySet="TBL_PATIENTS" />
+            <End Role="TBL_REVIEWS" EntitySet="TBL_REVIEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_USERS_TBL_STATUS" Association="Self.FK_TBL_USERS_TBL_STATUS">
+            <End Role="TBL_STATUS" EntitySet="TBL_STATUS" />
+            <End Role="TBL_USERS" EntitySet="TBL_USERS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DentistAppointmentSystemModelStoreContainer" CdmEntityContainer="DentistAppointmentSystemEntities">
+          <EntitySetMapping Name="TBL_ADMINS">
+            <EntityTypeMapping TypeName="DentistAppointmentSystemModel.TBL_ADMINS">
+              <MappingFragment StoreEntitySet="TBL_ADMINS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_APPOINTMENTS">
+            <EntityTypeMapping TypeName="DentistAppointmentSystemModel.TBL_APPOINTMENTS">
+              <MappingFragment StoreEntitySet="TBL_APPOINTMENTS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DateAndTime" ColumnName="DateAndTime" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="PatientID" ColumnName="PatientID" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DEPARTMENTS">
+            <EntityTypeMapping TypeName="DentistAppointmentSystemModel.TBL_DEPARTMENTS">
+              <MappingFragment StoreEntitySet="TBL_DEPARTMENTS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DOCTORS">
+            <EntityTypeMapping TypeName="DentistAppointmentSystemModel.TBL_DOCTORS">
+              <MappingFragment StoreEntitySet="TBL_DOCTORS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TitleID" ColumnName="TitleID" />
+                <ScalarProperty Name="About" ColumnName="About" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_PATIENTS">
+            <EntityTypeMapping TypeName="DentistAppointmentSystemModel.TBL_PATIENTS">
+              <MappingFragment StoreEntitySet="TBL_PATIENTS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_REVIEWS">
+            <EntityTypeMapping TypeName="DentistAppointmentSystemModel.TBL_REVIEWS">
+              <MappingFragment StoreEntitySet="TBL_REVIEWS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PatientID" ColumnName="PatientID" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Created_at" ColumnName="Created_at" />
+                <ScalarProperty Name="Star" ColumnName="Star" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_STATUS">
+            <EntityTypeMapping TypeName="DentistAppointmentSystemModel.TBL_STATUS">
+              <MappingFragment StoreEntitySet="TBL_STATUS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_TITLES">
+            <EntityTypeMapping TypeName="DentistAppointmentSystemModel.TBL_TITLES">
+              <MappingFragment StoreEntitySet="TBL_TITLES">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_USERS">
+            <EntityTypeMapping TypeName="DentistAppointmentSystemModel.TBL_USERS">
+              <MappingFragment StoreEntitySet="TBL_USERS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="RememberMe" ColumnName="RememberMe" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_TREATMENTS">
+            <EntityTypeMapping TypeName="DentistAppointmentSystemModel.TBL_TREATMENTS">
+              <MappingFragment StoreEntitySet="TBL_TREATMENTS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Treatment" ColumnName="Treatment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
